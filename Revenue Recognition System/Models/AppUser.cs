@@ -8,5 +8,6 @@ public class AppUser
     public string Salt { get; set; }
     public string RefreshToken { get; set; }
     public DateTime? RefreshTokenExp { get; set; }
+    public bool IsRefreshTokenExpired => RefreshTokenExp < DateTime.Now;
     public AppUserRole Role { get; set; }
 }

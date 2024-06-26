@@ -1,6 +1,8 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Revenue_Recognition_System.Context;
+using Revenue_Recognition_System.Services;
 
 namespace Revenue_Recognition_System;
 
@@ -14,8 +16,10 @@ public class Program
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddDbContext<AppDbContext>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddTransient<IAuthService, AuthService>();
         builder.Services.AddAuthentication(option =>
         {
             option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,7 +61,11 @@ public class Program
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SecretKey"]))
             };
         });
-
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+            options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+        });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

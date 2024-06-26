@@ -5,8 +5,8 @@ namespace Revenue_Recognition_System.Repositories;
 
 public abstract class BaseRepository<T> : IRepository<T> where T : class
 {
-    private readonly AppDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    protected readonly AppDbContext _context;
+    protected readonly DbSet<T> _dbSet;
 
     protected BaseRepository(AppDbContext context)
     {
