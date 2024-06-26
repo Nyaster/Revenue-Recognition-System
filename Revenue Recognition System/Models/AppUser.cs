@@ -1,6 +1,6 @@
 ﻿namespace Revenue_Recognition_System.Models;
 
-public class User
+public class AppUser
 {
     public int Id { get; set; }
     public string Login { get; set; }
@@ -8,4 +8,5 @@ public class User
     public string Salt { get; set; }
     public string RefreshToken { get; set; }
     public DateTime? RefreshTokenExp { get; set; }
+    public AppUserRole Role { get; set; }
 }
