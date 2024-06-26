@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Revenue_Recognition_System.Context;
 using Revenue_Recognition_System.Services;
@@ -13,10 +14,15 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
+        IConfiguration configuration = new ConfigurationBuilder()
+            .AddJsonFile("secrets.json", optional: true, reloadOnChange: true).Build();
+        builder.Configuration.AddConfiguration(configuration);
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddDbContext<AppDbContext>();
+        builder.Services.AddDbContext<AppDbContext>(opt =>
+        {
+            opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddTransient<IAuthService, AuthService>();
