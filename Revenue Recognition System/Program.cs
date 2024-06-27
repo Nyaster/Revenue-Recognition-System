@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Revenue_Recognition_System.Context;
+using Revenue_Recognition_System.Repositories;
 using Revenue_Recognition_System.Services;
 
 namespace Revenue_Recognition_System;
@@ -19,13 +20,13 @@ public class Program
         builder.Configuration.AddConfiguration(configuration);
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
         builder.Services.AddDbContext<AppDbContext>(opt =>
         {
             opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddTransient<IAuthService, AuthService>();
         builder.Services.AddAuthentication(option =>
         {
             option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,6 +73,14 @@ public class Program
             options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
             options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
         });
+
+        #region Services
+
+        builder.Services.AddTransient<IAuthService, AuthService>();
+        builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+
+        #endregion
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

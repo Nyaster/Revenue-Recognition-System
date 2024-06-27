@@ -68,6 +68,12 @@ public class AuthService : IAuthService
 
     public async Task Register(RegisterRequest registerRequest)
     {
+        var userByLogin = await _repository.GetUserByLogin(registerRequest.Login.ToLower());
+        if (userByLogin != null)
+        {
+            throw new UserArleadyExistException();
+        }
+
         var hashedPasswordAndSalt = SecurityHelpers.GetHashedPasswordAndSalt(registerRequest.Password);
         var user = new AppUser()
         {
@@ -124,6 +130,8 @@ public class AuthService : IAuthService
         };
     }
 }
+
+public class UserArleadyExistException : Exception;
 
 public class NotAuthorizedException(string userLogin) : Exception(userLogin);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Revenue_Recognition_System.Models;
+using Revenue_Recognition_System.Models.Configurations;
 
 namespace Revenue_Recognition_System.Context;
 
@@ -13,7 +14,12 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Company> Companies { get; set; }
-    public DbSet<Company> Customers { get; set; }
-    public DbSet<AppUser> AppUsers { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppUserEfConfiguration).Assembly);
+    }
+
+
+    public DbSet<AppUser> AppUsers { get; init; }
 }
