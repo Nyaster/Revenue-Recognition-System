@@ -1,10 +1,9 @@
-﻿namespace Revenue_Recognition_System.DTOs;
+﻿using Revenue_Recognition_System.Models;
 
-public class IndividualDto
+namespace Revenue_Recognition_System.DTOs;
+
+public class IndividualDto : AbstractClientDTO
 {
-    public string Adress { get; set; }
-    public string Email { get; set; }
-    public string PhoneNumber { get; set; }
     public string FirstName { get; set; }
     public string SecondName { get; set; }
     public string Pesel { get; set; }

@@ -110,8 +110,8 @@ public class Program
 
         builder.Services.AddTransient<IAuthService, AuthService>();
         builder.Services.AddTransient<IUsersBaseRepository, UsersBaseRepository>();
-        builder.Services.AddTransient<IIndividualBaseRepository, IndividualBaseRepository>();
-        builder.Services.AddTransient<IIndividualService, IndividualService>();
+        builder.Services.AddTransient<IClientsService, ClientsService>();
+        builder.Services.AddTransient<IClientsRepository, ClientRepository>();
 
         #endregion
 

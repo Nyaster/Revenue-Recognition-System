@@ -51,7 +51,7 @@ public class AuthService : IAuthService
             issuer: "https://localhost:5001",
             audience: "https://localhost:5001",
             claims: userclaim,
-            expires: DateTime.Now.AddMinutes(10),
+            expires: DateTime.Now.AddDays(1),
             signingCredentials: creds
         );
 
