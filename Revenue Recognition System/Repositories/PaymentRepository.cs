@@ -10,7 +10,7 @@ public class PaymentRepository : BaseRepository<Payment>, IPaymentRepository
     {
     }
 
-    public async Task<decimal> GetPriceToPayForSoftware(int softwareContractId)
+    public async Task<decimal> GetArleadyPayedForSoftware(int softwareContractId)
     {
         return await _dbSet.Where(x => x.ContractId == softwareContractId).SumAsync(x => x.Amount);
     }

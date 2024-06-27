@@ -14,7 +14,7 @@ public class SoftwareContractEfConfiguration : IEntityTypeConfiguration<Software
         builder.Property(x => x.EndDate).IsRequired();
         builder.Property(x => x.StartDate).IsRequired();
         builder.Property(x => x.SupportYears).IsRequired();
-        builder.HasOne(x => x.Client).WithMany().HasForeignKey(x => x.ClientId);
+        builder.HasOne(x => x.Client).WithMany(x=>x.SoftWareContracts).HasForeignKey(x => x.ClientId);
         builder.HasOne(x => x.Software).WithMany().HasForeignKey(x => x.SoftwareId);
     }
 }

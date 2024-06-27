@@ -112,6 +112,11 @@ public class Program
         builder.Services.AddTransient<IUsersBaseRepository, UsersBaseRepository>();
         builder.Services.AddTransient<IClientsService, ClientsService>();
         builder.Services.AddTransient<IClientsRepository, ClientRepository>();
+        builder.Services.AddTransient<IContractsService, ContractService>();
+        builder.Services.AddTransient<IDiscountRepository, DiscountRepository>();
+        builder.Services.AddTransient<ISoftwareRepository, SoftwareRepository>();
+        builder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
+        builder.Services.AddTransient<ISoftwareContractRepository, SoftwareContractRepostory>();
 
         #endregion
 

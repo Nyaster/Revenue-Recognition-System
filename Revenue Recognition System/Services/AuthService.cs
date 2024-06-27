@@ -25,7 +25,7 @@ public class AuthService : IAuthService
         AppUser? user = await _baseRepository.GetUserByLogin(loginRequest.Login);
         if (user == null)
         {
-            throw new UserNotFoundException(user.Login);
+            throw new UserNotFoundException(loginRequest.Login);
         }
 
         string passwordHashFromDb = user.Password;

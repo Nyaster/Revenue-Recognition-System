@@ -4,5 +4,5 @@ namespace Revenue_Recognition_System.Repositories;
 
 public interface IPaymentRepository : IBaseRepository<Payment>
 {
-    public Task<decimal> GetPriceToPayForSoftware(int softwareContractId);
+    public Task<decimal> GetArleadyPayedForSoftware(int softwareContractId);
 }

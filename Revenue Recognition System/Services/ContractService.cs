@@ -45,7 +45,7 @@ public class ContractService : IContractsService
             throw new ClientNotFoundException();
         }
 
-        if (clientById.SoftWareContracts.Any(x => x.IsPaid == true))
+        if (clientById.SoftWareContracts != null && clientById.SoftWareContracts.Any(x => x.IsPaid == true))
         {
             discountPercent += 5;
         }
@@ -70,7 +70,10 @@ public class ContractService : IContractsService
             IsPaid = false,
             IsActive = true,
             SupportYears = contractDto.SupportYears,
-            Price = sowtware.Price - (sowtware.Price * discountPercent) + contractDto.SupportYears * pricePerYearSupport,
+            Software = sowtware,
+            Price = sowtware.Price + (contractDto.SupportYears * pricePerYearSupport) -
+                    ((contractDto.SupportYears * pricePerYearSupport + sowtware.Price) *
+                     (decimal)(discountPercent / 100.0)),
         };
         await _softwareContractRepository.Add(softWareContract);
     }
@@ -83,7 +86,8 @@ public class ContractService : IContractsService
             throw new ClientNotFoundException();
         }
 
-        var priceToPayForSoftware = await _paymentRepository.GetPriceToPayForSoftware(id);
+        var priceToPayForSoftware = await _paymentRepository.GetArleadyPayedForSoftware(id);
+        priceToPayForSoftware = byId.Price - priceToPayForSoftware;
         if (priceToPayForSoftware <= 0)
         {
             byId.IsPaid = true;

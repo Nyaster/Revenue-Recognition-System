@@ -11,7 +11,7 @@ public class DiscountRepository : BaseRepository<Discount>, IDiscountRepository
     }
 
 
-    public async Task<ICollection<Discount>> GetDiscountsByIds(List<int> ids)
+    public async Task<ICollection<Discount>> GetDiscountsByIds(ICollection<int> ids)
     {
         return await _dbSet.Where(x => ids.Contains(x.Id)).ToListAsync();
     }

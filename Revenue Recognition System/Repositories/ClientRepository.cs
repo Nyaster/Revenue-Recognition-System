@@ -12,7 +12,7 @@ public class ClientRepository : BaseRepository<AbstractClient>, IClientsReposito
 
     public async Task<AbstractClient?> GetClientById(int id)
     {
-        var client = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+        var client = await _dbSet.Where(x=>x.Id == id).Include(x=>x.SoftWareContracts).FirstOrDefaultAsync();
 
         return client;
     }
