@@ -1,5 +1,5 @@
 ﻿
-namespace Revenue_Recognition_System.Services;
+namespace Revenue_Recognition_System.Exceptions;
 
 public class ClientNotFoundException : Exception
 {

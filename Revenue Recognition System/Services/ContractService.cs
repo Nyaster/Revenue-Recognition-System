@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Revenue_Recognition_System.DTOs;
+using Revenue_Recognition_System.Exceptions;
 using Revenue_Recognition_System.Models;
 using Revenue_Recognition_System.Repositories;
 
@@ -84,6 +85,11 @@ public class ContractService : IContractsService
             throw new ClientNotFoundException();
         }
 
+        if (byId.ClientId != id)
+        {
+            throw new NotHaveAccesException();
+        }
+
         var priceToPayForSoftware = await _paymentRepository.GetArleadyPayedForSoftware(id);
         priceToPayForSoftware = byId.Price - priceToPayForSoftware;
         if (priceToPayForSoftware <= 0)
@@ -126,12 +132,4 @@ public class ContractService : IContractsService
         };
         return paymentDto;
     }
-}
-
-public class ContractTimeToPayExceesException : Exception
-{
-}
-
-public class ClientArleadyPayedException : Exception
-{
 }

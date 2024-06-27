@@ -1,5 +1,6 @@
 ﻿using Revenue_Recognition_System.Context;
 using Revenue_Recognition_System.DTOs;
+using Revenue_Recognition_System.Exceptions;
 using Revenue_Recognition_System.Models;
 using Revenue_Recognition_System.Repositories;
 
