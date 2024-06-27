@@ -22,4 +22,5 @@ public class AppDbContext : DbContext
 
 
     public DbSet<AppUser> AppUsers { get; init; }
+    public DbSet<Individual> Individuals { get; init; }
 }

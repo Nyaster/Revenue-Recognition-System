@@ -25,21 +25,30 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
         {
-            var securityScheme = new OpenApiSecurityScheme
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
                 Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Description = "Please enter JWT with Bearer into field"
-            };
-            options.AddSecurityDefinition("Bearer", securityScheme);
-            var securityRequirement = new OpenApiSecurityRequirement
+                Description =
+                    "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-                { securityScheme, new[] { "Bearer" } }
-            };
-            options.AddSecurityRequirement(securityRequirement);
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
         });
         builder.Services.AddDbContext<AppDbContext>(opt =>
         {
@@ -101,6 +110,8 @@ public class Program
 
         builder.Services.AddTransient<IAuthService, AuthService>();
         builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+        builder.Services.AddTransient<IIndividualRepository, IndividualRepository>();
+        builder.Services.AddTransient<IIndividualService, IndividualService>();
 
         #endregion
 
