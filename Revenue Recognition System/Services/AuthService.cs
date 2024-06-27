@@ -11,18 +11,18 @@ namespace Revenue_Recognition_System.Services;
 
 public class AuthService : IAuthService
 {
-    private IUsersRepository _repository;
+    private IUsersBaseRepository _baseRepository;
     private IConfiguration _configuration;
 
-    public AuthService(IUsersRepository repository, IConfiguration configuration)
+    public AuthService(IUsersBaseRepository baseRepository, IConfiguration configuration)
     {
-        _repository = repository;
+        _baseRepository = baseRepository;
         _configuration = configuration;
     }
 
     public async Task<JwtWithRefresh> Login(LoginRequest loginRequest)
     {
-        AppUser? user = await _repository.GetUserByLogin(loginRequest.Login);
+        AppUser? user = await _baseRepository.GetUserByLogin(loginRequest.Login);
         if (user == null)
         {
             throw new UserNotFoundException(user.Login);
@@ -57,7 +57,7 @@ public class AuthService : IAuthService
 
         user.RefreshToken = SecurityHelpers.GenerateRefreshToken();
         user.RefreshTokenExp = DateTime.Now.AddDays(1);
-        await _repository.Update(user);
+        await _baseRepository.Update(user);
 
         return new JwtWithRefresh()
         {
@@ -68,7 +68,7 @@ public class AuthService : IAuthService
 
     public async Task Register(RegisterRequest registerRequest)
     {
-        var userByLogin = await _repository.GetUserByLogin(registerRequest.Login.ToLower());
+        var userByLogin = await _baseRepository.GetUserByLogin(registerRequest.Login.ToLower());
         if (userByLogin != null)
         {
             throw new UserArleadyExistException();
@@ -85,12 +85,12 @@ public class AuthService : IAuthService
             Role = AppUserRole.User
         };
 
-        await _repository.Add(user);
+        await _baseRepository.Add(user);
     }
 
     public async Task<JwtWithRefresh> Refresh(RefreshTokenRequest refreshRequest)
     {
-        AppUser? user = await _repository.GetUserByRefreshToken(refreshRequest.RefreshToken);
+        AppUser? user = await _baseRepository.GetUserByRefreshToken(refreshRequest.RefreshToken);
         if (user == null)
         {
             throw new SecurityTokenException("Invalid refresh token");

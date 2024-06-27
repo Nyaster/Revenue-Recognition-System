@@ -7,18 +7,18 @@ namespace Revenue_Recognition_System.Services;
 
 public class IndividualService : IIndividualService
 {
-    private IIndividualRepository _repository;
+    private IIndividualBaseRepository _baseRepository;
 
-    public IndividualService(IIndividualRepository repository)
+    public IndividualService(IIndividualBaseRepository baseRepository)
     {
-        _repository = repository;
+        _baseRepository = baseRepository;
     }
 
     public async Task AddClient(IndividualDto client)
     {
         await CheckClientExist(client);
 
-        await _repository.Add(new Individual()
+        await _baseRepository.Add(new Individual()
         {
             Adress = client.Adress,
             Email = client.Email,
@@ -32,7 +32,7 @@ public class IndividualService : IIndividualService
 
     private async Task CheckClientExist(IndividualDto client)
     {
-        if (await _repository.GetByPesel(client.Pesel) != null)
+        if (await _baseRepository.GetByPesel(client.Pesel) != null)
         {
             throw new UserArleadyExistException();
         }
@@ -41,12 +41,12 @@ public class IndividualService : IIndividualService
 
     public async Task Update(IndividualDto client, int id)
     {
-        var byId = await _repository.GetById(id);
+        var byId = await _baseRepository.GetById(id);
         CheckIfClientExist(byId);
 
         CheckPeselModification(client, byId);
 
-        await _repository.Update(new Individual()
+        await _baseRepository.Update(new Individual()
         {
             Id = id,
             Adress = client.Adress,
@@ -77,15 +77,15 @@ public class IndividualService : IIndividualService
 
     public async Task Delete(int id)
     {
-        var byId = await _repository.GetById(id);
+        var byId = await _baseRepository.GetById(id);
         byId.IsDeleted = true;
         byId.Pesel = "";
-        await _repository.Update(byId);
+        await _baseRepository.Update(byId);
     }
 
     public async Task<IndividualDto> Get(int id)
     {
-        var individual = await _repository.GetById(id);
+        var individual = await _baseRepository.GetById(id);
         CheckIfClientExist(individual);
         return new IndividualDto()
         {

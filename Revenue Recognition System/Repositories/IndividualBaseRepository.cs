@@ -4,9 +4,9 @@ using Revenue_Recognition_System.Models;
 
 namespace Revenue_Recognition_System.Repositories;
 
-public class IndividualRepository : BaseRepository<Individual>, IIndividualRepository
+public class IndividualBaseRepository : BaseRepository<Individual>, IIndividualBaseRepository
 {
-    public IndividualRepository(AppDbContext context) : base(context)
+    public IndividualBaseRepository(AppDbContext context) : base(context)
     {
     }
 

@@ -3,7 +3,7 @@ using Revenue_Recognition_System.Models;
 
 namespace Revenue_Recognition_System.Repositories;
 
-public interface IUsersRepository : IRepository<AppUser>
+public interface IUsersBaseRepository : IBaseRepository<AppUser>
 {
     public Task<AppUser?> GetUserByLogin(string login);
     public Task<AppUser?> GetUserByRefreshToken(string token);

@@ -109,8 +109,8 @@ public class Program
         #region Services
 
         builder.Services.AddTransient<IAuthService, AuthService>();
-        builder.Services.AddTransient<IUsersRepository, UsersRepository>();
-        builder.Services.AddTransient<IIndividualRepository, IndividualRepository>();
+        builder.Services.AddTransient<IUsersBaseRepository, UsersBaseRepository>();
+        builder.Services.AddTransient<IIndividualBaseRepository, IndividualBaseRepository>();
         builder.Services.AddTransient<IIndividualService, IndividualService>();
 
         #endregion

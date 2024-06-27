@@ -1,6 +1,6 @@
 ﻿namespace Revenue_Recognition_System.Repositories;
 
-public interface IRepository<T> where T : class
+public interface IBaseRepository<T> where T : class
 {
     Task<ICollection<T?>> GetAll();
     Task<T?> GetById(int id);

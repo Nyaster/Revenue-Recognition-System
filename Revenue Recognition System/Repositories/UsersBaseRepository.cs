@@ -5,9 +5,9 @@ using Revenue_Recognition_System.Models;
 
 namespace Revenue_Recognition_System.Repositories;
 
-public class UsersRepository : BaseRepository<AppUser>, IUsersRepository
+public class UsersBaseRepository : BaseRepository<AppUser>, IUsersBaseRepository
 {
-    public UsersRepository(AppDbContext context) : base(context)
+    public UsersBaseRepository(AppDbContext context) : base(context)
     {
     }
 
