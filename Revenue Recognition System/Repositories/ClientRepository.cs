@@ -26,4 +26,5 @@ public class ClientRepository : BaseRepository<AbstractClient>, IClientsReposito
     {
         return await _context.Companies.FirstOrDefaultAsync(x => x.Krs == krs);
     }
+    
 }

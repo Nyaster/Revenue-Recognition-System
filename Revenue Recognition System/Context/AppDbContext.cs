@@ -23,5 +23,9 @@ public class AppDbContext : DbContext
 
     public DbSet<AppUser> AppUsers { get; init; }
     public DbSet<Individual> Individuals { get; init; }
-    public DbSet<Company?> Companies { get; init; }
+    public DbSet<Company> Companies { get; init; }
+    public DbSet<Discount> Discounts { get; init; }
+    public DbSet<Software> Softwares { get; init; }
+    public DbSet<SoftwareContract> SoftwareContracts { get; init; }
+    public DbSet<Payment> Payments { get; set; }
 }

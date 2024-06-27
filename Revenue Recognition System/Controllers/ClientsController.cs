@@ -14,11 +14,14 @@ public class ClientsController : ControllerBase
 {
     private IClientsService _clientsService;
     private IClientsRepository _clientsRepository;
+    private IContractsService _contractsService;
 
-    public ClientsController(IClientsService clientsService, IClientsRepository clientsRepository)
+    public ClientsController(IClientsService clientsService, IClientsRepository clientsRepository,
+        IContractsService contractsService)
     {
         _clientsService = clientsService;
         _clientsRepository = clientsRepository;
+        _contractsService = contractsService;
     }
 
     [HttpPost("individual")]
@@ -64,5 +67,18 @@ public class ClientsController : ControllerBase
         await _clientsService.Update(customer, id);
         return Ok();
     }
-    
+
+    [HttpPost("{id:int}/contracts")]
+    public async Task<IActionResult> CreateContract(ContractDto contract, int id)
+    {
+        await _contractsService.CreateContract(contract, id);
+        return Ok();
+    }
+
+    [HttpPost("{id:int}/contracts/{contract:int}")]
+    public async Task<IActionResult> ProcessPaymend([FromBody] decimal amount, int contract)
+    {
+        var processPayment = await _contractsService.ProcessPayment(contract, amount);
+        return Ok(processPayment);
+    }
 }
