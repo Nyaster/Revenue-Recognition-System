@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Revenue_Recognition_System.Context;
 using Revenue_Recognition_System.Repositories;
 using Revenue_Recognition_System.Services;
@@ -22,11 +23,31 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            var securityScheme = new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "Please enter JWT with Bearer into field"
+            };
+            options.AddSecurityDefinition("Bearer", securityScheme);
+            var securityRequirement = new OpenApiSecurityRequirement
+            {
+                { securityScheme, new[] { "Bearer" } }
+            };
+            options.AddSecurityRequirement(securityRequirement);
+        });
         builder.Services.AddDbContext<AppDbContext>(opt =>
         {
             opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
+
+        #region JwtConfig
+
         builder.Services.AddAuthentication(option =>
         {
             option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,6 +94,8 @@ public class Program
             options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
             options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
         });
+
+        #endregion
 
         #region Services
 

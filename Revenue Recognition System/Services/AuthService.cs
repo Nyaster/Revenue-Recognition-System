@@ -105,7 +105,6 @@ public class AuthService : IAuthService
         {
             new Claim(ClaimTypes.Name, user.Login),
             new Claim(ClaimTypes.Role, user.Role.ToString())
-            //Add additional data here
         };
 
         SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]));

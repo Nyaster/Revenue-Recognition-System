@@ -16,14 +16,16 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    [HttpPost("/login")]
+    [AllowAnonymous]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest loginRequest)
     {
         var jwtWithRefresh = await _authService.Login(loginRequest);
         return Ok(jwtWithRefresh);
     }
 
-    [HttpPost("/register")]
+    [AllowAnonymous]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
         await _authService.Register(registerRequest);
