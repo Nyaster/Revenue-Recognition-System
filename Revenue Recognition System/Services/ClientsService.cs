@@ -43,21 +43,22 @@ public class ClientsService : IClientsService
     public async Task Update(IndividualDto client, int id)
     {
         var byId = await _clientsRepository.GetById(id);
-        CheckIfClientExist(byId);
-
-        CheckPeselModification(client, byId);
-
-        await _clientsRepository.Update(new Individual()
+        if (byId == null || byId is not Individual individual || individual.IsDeleted)
         {
-            Id = id,
-            Adress = client.Adress,
-            Email = client.Email,
-            FirstName = client.FirstName,
-            SecondName = client.SecondName,
-            IsDeleted = false,
-            Pesel = client.Pesel,
-            PhoneNumber = client.PhoneNumber,
-        });
+            throw new ClientNotFoundException();
+        }
+
+        if (individual.Pesel != client.Pesel)
+        {
+            throw new PeselCanNotEditedExecption();
+        }
+
+        individual.FirstName = client.FirstName;
+        individual.SecondName = client.SecondName;
+        individual.Adress = client.Adress;
+        individual.Email = client.Email;
+        individual.PhoneNumber = client.PhoneNumber;
+        await _clientsRepository.Update(individual);
     }
 
     private void CheckPeselModification(IndividualDto client, AbstractClient? byId)
@@ -148,20 +149,24 @@ public class ClientsService : IClientsService
         });
     }
 
-    public Task Update(CompanyDto client, int id)
+    public async Task Update(CompanyDto client, int id)
     {
-        throw new NotImplementedException();
+        var byId = await _clientsRepository.GetById(id);
+        if (byId == null || byId is not Company)
+        {
+            throw new ClientNotFoundException();
+        }
+
+        Company company = (Company)byId;
+        if (company.Krs != client.Krs)
+        {
+            throw new PeselCanNotEditedExecption();
+        }
+
+        company.Adress = client.Adress;
+        company.PhoneNumber = client.PhoneNumber;
+        company.CompanyName = client.CompanyName;
+        company.Email = client.Email;
+        await _clientsRepository.Update(company);
     }
-}
-
-public class CannotDeleteCompantiesException : Exception
-{
-}
-
-public class ClientNotFoundException : Exception
-{
-}
-
-public class PeselCanNotEditedExecption : Exception
-{
 }

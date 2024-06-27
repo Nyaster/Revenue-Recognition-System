@@ -117,6 +117,9 @@ public class Program
         builder.Services.AddTransient<ISoftwareRepository, SoftwareRepository>();
         builder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
         builder.Services.AddTransient<ISoftwareContractRepository, SoftwareContractRepostory>();
+        builder.Services.AddTransient<IRevenueService, RevenueService>();
+        builder.Services.AddTransient<IExchangeService, ExchangeRateService>();
+        builder.Services.AddTransient<HttpClient>();
 
         #endregion
 

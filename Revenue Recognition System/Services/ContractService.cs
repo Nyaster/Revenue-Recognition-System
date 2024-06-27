@@ -56,11 +56,9 @@ public class ContractService : IContractsService
             discounts = await _discountRepository.GetDiscountsByIds(contractDto.Discounts);
         }
 
-        if (!discounts.IsNullOrEmpty()) ;
-        {
-            var percentage = discounts.MaxBy(x => x.Percentage);
-            discountPercent += percentage.Percentage;
-        }
+        var percentage = discounts.MaxBy(x => x.Percentage);
+        discountPercent += percentage?.Percentage ?? 0;
+
         const int pricePerYearSupport = 1000;
         var softWareContract = new SoftwareContract()
         {
@@ -116,7 +114,10 @@ public class ContractService : IContractsService
             IsReturned = false,
             PaymentDate = DateTime.Now,
         };
+
         await _paymentRepository.Add(payment);
+        byId.IsPaid = (priceToPayForSoftware - amount) <= 0;
+        await _softwareContractRepository.Update(byId);
         var paymentDto = new PaymentDto()
         {
             DueDate = byId.EndDate,
