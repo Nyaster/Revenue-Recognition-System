@@ -1,4 +1,6 @@
-﻿namespace Revenue_Recognition_System.DTOs;
+﻿using System.Runtime.InteropServices;
+
+namespace Revenue_Recognition_System.DTOs;
 
 public class RevenueRequestModel
 {

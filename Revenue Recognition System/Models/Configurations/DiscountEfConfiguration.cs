@@ -13,5 +13,24 @@ public class DiscountEfConfiguration : IEntityTypeConfiguration<Discount>
         builder.Property(x => x.EndDate).IsRequired();
         builder.Property(x => x.Percentage).IsRequired();
         builder.Property(x => x.AppliesToSubscription).IsRequired();
+        //Some data for you
+        List<Discount> TestData = new List<Discount>();
+        TestData.Add(new Discount()
+        {
+            Name = "Black Friday",
+            AppliesToSubscription = false,
+            Percentage = 10,
+            StartDate = DateTime.Now,
+            EndDate = DateTime.Now.AddMonths(3),
+        });
+        TestData.Add(new Discount()
+        {
+            Name = "Black Friday1",
+            AppliesToSubscription = false,
+            Percentage = 20,
+            StartDate = DateTime.Now,
+            EndDate = DateTime.Now.AddMonths(3),
+        });
+        builder.HasData(TestData);
     }
 }

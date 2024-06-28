@@ -59,7 +59,7 @@ namespace Revenue_Recognition_System.Tests
             _softwareContractRepositoryMock.Verify(r => r.Add(It.Is<SoftwareContract>(sc =>
                     sc.Client == client &&
                     sc.Software == software &&
-                    sc.Price == 2700 // 1000 + 2 * 1000 - (2000 + 1000) * 0.10
+                    sc.Price == 3700 // 1000 * 2 + 2 * 1000 - (2000 + 1000) * 0.10
             )), Times.Once);
         }
 

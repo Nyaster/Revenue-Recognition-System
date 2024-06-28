@@ -13,5 +13,27 @@ public class SoftwareEfConfiguration : IEntityTypeConfiguration<Software>
         builder.Property(x => x.Name).IsRequired();
         builder.Property(x => x.Price);
         builder.Property(x => x.SubscriptionPrice).IsRequired();
+        List<Software> softwares = new List<Software>();
+        softwares.Add(new Software()
+        {
+            Name = "blender",
+            Price = 1000,
+            ReleaseDate = DateTime.Now,
+            Category = "3d",
+            SubscriptionPrice = 0,
+            Version = "1.0.0",
+            Description = "3d cool design tool"
+        });
+        softwares.Add(new Software()
+        {
+            Name = "koikatsu",
+            Price = 1050,
+            ReleaseDate = DateTime.Now,
+            Category = "3d",
+            SubscriptionPrice = 0,
+            Version = "1.0.0",
+            Description = "very cool program"
+        });
+        builder.HasData(softwares);
     }
 }

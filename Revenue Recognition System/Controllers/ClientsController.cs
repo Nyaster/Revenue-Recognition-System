@@ -15,11 +15,15 @@ public class ClientsController : ControllerBase
     private IClientsService _clientsService;
     private IContractsService _contractsService;
 
+    private ISoftwareRepository
+        _softwareRepository; // It's here only for helping you tetsing thisn, and don't look to DB for knowing id software.
+
     public ClientsController(IClientsService clientsService,
-        IContractsService contractsService)
+        IContractsService contractsService, ISoftwareRepository softwareRepository)
     {
         _clientsService = clientsService;
         _contractsService = contractsService;
+        _softwareRepository = softwareRepository;
     }
 
     [HttpPost("individual")]
@@ -78,5 +82,20 @@ public class ClientsController : ControllerBase
     {
         var processPayment = await _contractsService.ProcessPayment(contract, amount);
         return Ok(processPayment);
+    }
+    // Code after this written more for testing from swagger and helping you know what field to fill(And for this i cannot make DTO) or test for services
+
+    [HttpGet("/contracts/")]
+    public async Task<IActionResult> GetAllContracts()
+    {
+        var processPayment = await _contractsService.GetAll();
+        return Ok(processPayment);
+    }
+
+    [HttpGet("/softwares")]
+    public async Task<IActionResult> GetAllSoftware()
+    {
+        var softwares = await _softwareRepository.GetAll();
+        return Ok(softwares);
     }
 }

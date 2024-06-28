@@ -138,4 +138,11 @@ public class ContractService : IContractsService
         };
         return paymentDto;
     }
+
+    public async Task<ICollection<SoftwareContract>>
+        GetAll() //This code written only for helping testing thing in swagger, its why this is'n testet by units and not using DTO
+    {
+        var softwareContracts = await _softwareContractRepository.GetAll();
+        return softwareContracts;
+    }
 }

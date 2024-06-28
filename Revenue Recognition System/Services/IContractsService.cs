@@ -7,4 +7,5 @@ public interface IContractsService
 {
     public Task CreateContract(ContractDto contractDto, int id);
     public Task<PaymentDto> ProcessPayment(int id, decimal amount);
+    public Task<ICollection<SoftwareContract>> GetAll();
 }
