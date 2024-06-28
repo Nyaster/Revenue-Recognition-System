@@ -16,6 +16,7 @@ public class SoftwareEfConfiguration : IEntityTypeConfiguration<Software>
         List<Software> softwares = new List<Software>();
         softwares.Add(new Software()
         {
+            Id = 101,
             Name = "blender",
             Price = 1000,
             ReleaseDate = DateTime.Now,
@@ -26,6 +27,7 @@ public class SoftwareEfConfiguration : IEntityTypeConfiguration<Software>
         });
         softwares.Add(new Software()
         {
+            Id = 100,
             Name = "koikatsu",
             Price = 1050,
             ReleaseDate = DateTime.Now,

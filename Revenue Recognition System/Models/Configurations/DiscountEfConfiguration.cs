@@ -17,6 +17,7 @@ public class DiscountEfConfiguration : IEntityTypeConfiguration<Discount>
         List<Discount> TestData = new List<Discount>();
         TestData.Add(new Discount()
         {
+            Id = 100,
             Name = "Black Friday",
             AppliesToSubscription = false,
             Percentage = 10,
@@ -25,6 +26,7 @@ public class DiscountEfConfiguration : IEntityTypeConfiguration<Discount>
         });
         TestData.Add(new Discount()
         {
+            Id = 101,
             Name = "Black Friday1",
             AppliesToSubscription = false,
             Percentage = 20,
