@@ -62,21 +62,9 @@ public class ClientsService : IClientsService
         await _clientsRepository.Update(individual);
     }
 
-    private void CheckPeselModification(IndividualDto client, AbstractClient? byId)
-    {
-        if (byId is Individual)
-        {
-            var individual = (Individual)byId;
-            if (individual.Pesel != client.Pesel)
-            {
-                throw new PeselCanNotEditedExecption();
-            }
-        }
-    }
-
     private void CheckIfClientExist(AbstractClient? byId)
     {
-        if (byId == null || byId is Individual && ((Individual)byId).IsDeleted)
+        if (byId == null || byId is Individual individual && individual.IsDeleted)
         {
             throw new ClientNotFoundException();
         }
@@ -91,7 +79,7 @@ public class ClientsService : IClientsService
                 throw new UserNotFoundException(id.ToString());
                 break;
             case Company company:
-                throw new CannotDeleteCompantiesException();
+                throw new CannotDeleteCompaniesException();
                 break;
             case Individual individual:
                 individual.IsDeleted = true;

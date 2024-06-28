@@ -13,14 +13,12 @@ namespace Revenue_Recognition_System.Controllers;
 public class ClientsController : ControllerBase
 {
     private IClientsService _clientsService;
-    private IClientsRepository _clientsRepository;
     private IContractsService _contractsService;
 
-    public ClientsController(IClientsService clientsService, IClientsRepository clientsRepository,
+    public ClientsController(IClientsService clientsService,
         IContractsService contractsService)
     {
         _clientsService = clientsService;
-        _clientsRepository = clientsRepository;
         _contractsService = contractsService;
     }
 
@@ -28,7 +26,7 @@ public class ClientsController : ControllerBase
     public async Task<IActionResult> AddINdividualCustomer(IndividualDto customer)
     {
         await _clientsService.AddClient(customer);
-        return Ok("Created");
+        return Created();
     }
 
     [HttpPatch("{id:int}/individual")]
@@ -36,7 +34,7 @@ public class ClientsController : ControllerBase
     public async Task<IActionResult> UpdateIndividualCustomer(IndividualDto customer, int id)
     {
         await _clientsService.Update(customer, id);
-        return Ok();
+        return Created();
     }
 
     [HttpDelete("{id:int}")]
@@ -72,7 +70,7 @@ public class ClientsController : ControllerBase
     public async Task<IActionResult> CreateContract(ContractDto contract, int id)
     {
         await _contractsService.CreateContract(contract, id);
-        return Ok();
+        return Created();
     }
 
     [HttpPost("{id:int}/contracts/{contract:int}")]

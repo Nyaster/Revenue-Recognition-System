@@ -1,6 +1,3 @@
-﻿
-namespace Revenue_Recognition_System.Exceptions;
+﻿namespace Revenue_Recognition_System.Exceptions;
 
-public class ClientNotFoundException : Exception
-{
-}
+public class ClientNotFoundException : NotFoundException;

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Revenue_Recognition_System.Context;
+using Revenue_Recognition_System.Middlewares;
 using Revenue_Recognition_System.Repositories;
 using Revenue_Recognition_System.Services;
 
@@ -133,7 +134,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
+        app.UseMiddleware<ErrorHandlingMiddleWare>();
         app.UseAuthorization();
 
 

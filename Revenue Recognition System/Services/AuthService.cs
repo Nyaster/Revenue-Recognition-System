@@ -20,7 +20,7 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<JwtWithRefresh> Login(LoginRequest loginRequest)
+    public async Task<JwtWithRefreshDTO> Login(LoginRequest loginRequest)
     {
         AppUser? user = await _baseRepository.GetUserByLogin(loginRequest.Login);
         if (user == null)
@@ -59,7 +59,7 @@ public class AuthService : IAuthService
         user.RefreshTokenExp = DateTime.Now.AddDays(1);
         await _baseRepository.Update(user);
 
-        return new JwtWithRefresh()
+        return new JwtWithRefreshDTO()
         {
             AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
             RefreshToken = user.RefreshToken
@@ -88,7 +88,7 @@ public class AuthService : IAuthService
         await _baseRepository.Add(user);
     }
 
-    public async Task<JwtWithRefresh> Refresh(RefreshTokenRequest refreshRequest)
+    public async Task<JwtWithRefreshDTO> Refresh(RefreshTokenRequest refreshRequest)
     {
         AppUser? user = await _baseRepository.GetUserByRefreshToken(refreshRequest.RefreshToken);
         if (user == null)
@@ -122,16 +122,10 @@ public class AuthService : IAuthService
         user.RefreshToken = SecurityHelpers.GenerateRefreshToken();
         user.RefreshTokenExp = DateTime.Now.AddDays(1);
 
-        return new JwtWithRefresh()
+        return new JwtWithRefreshDTO()
         {
             AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken),
             RefreshToken = user.RefreshToken
         };
     }
 }
-
-public class UserArleadyExistException : Exception;
-
-public class NotAuthorizedException(string userLogin) : Exception(userLogin);
-
-public class UserNotFoundException(string userLogin) : Exception(userLogin);

@@ -70,7 +70,7 @@ public class ContractService : IContractsService
             IsActive = true,
             SupportYears = contractDto.SupportYears,
             Software = sowtware,
-            Price = sowtware.Price + (contractDto.SupportYears * pricePerYearSupport) -
+            Price = sowtware.Price * contractDto.SupportYears + (contractDto.SupportYears * pricePerYearSupport) -
                     ((contractDto.SupportYears * pricePerYearSupport + sowtware.Price) *
                      (decimal)(discountPercent / 100.0)),
         };
@@ -105,6 +105,7 @@ public class ContractService : IContractsService
 
         if (!byId.IsActive || byId.EndDate < DateTime.Now)
         {
+            byId.IsActive = false;
             throw new ContractTimeToPayExceesException();
         }
 
@@ -123,6 +124,11 @@ public class ContractService : IContractsService
 
         await _paymentRepository.Add(payment);
         byId.IsPaid = (priceToPayForSoftware - amount) <= 0;
+        if (byId.IsPaid)
+        {
+            byId.EndDate = byId.EndDate.AddYears(byId.SupportYears);
+        }
+
         await _softwareContractRepository.Update(byId);
         var paymentDto = new PaymentDto()
         {
